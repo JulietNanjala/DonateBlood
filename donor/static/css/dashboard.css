@@ -44,7 +44,7 @@ body {
 /* Navigation Item Styles */
 .nav-item {
     text-decoration: none;
-    color: #333;
+    color:black;
     font-weight: bold;
     font-size: 18px;
     transition: color 0.3s ease;
@@ -74,8 +74,8 @@ body {
 
 /* Footer Section Styles */
 .footer {
-    background-color: #333;
+    background-color: red;
     color: #fff;
     text-align: center;
-    padding: 40px 0;
+    padding: 30px 0;
 }
