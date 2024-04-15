@@ -124,8 +124,8 @@ def logout_view(request):
 
 def future_events(request):
     # Retrieve future events from the database
-    future_events = FutureEvent.objects.filter(application_deadline__gt=timezone.now())
-    return render(request, 'future_events.html', {'future_events': future_events})
+   future_events = FutureEvent.objects.select_related('donation_center').filter(application_deadline__gt=timezone.now())
+   return render(request, 'future_events.html', {'future_events': future_events})
 
 def past_events(request):
     past_events = PastEvent.objects.all()

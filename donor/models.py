@@ -89,7 +89,7 @@ class DonationCenter(models.Model):
 class FutureEvent(models.Model):
     future_event_id = models.AutoField(primary_key=True)
     event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
-    donation_center_id = models.ForeignKey(DonationCenter, on_delete=models.CASCADE)
+    donation_center= models.ForeignKey(DonationCenter, on_delete=models.CASCADE)
     application_deadline = models.DateTimeField(help_text="Enter application deadline")
     start_date = models.DateTimeField(help_text="Enter Start Date")
     end_date = models.DateTimeField(help_text="Enter End Date")
