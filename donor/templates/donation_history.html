@@ -5,16 +5,18 @@
 <div class="container">
     <h2>Donation History</h2>
     {% if donations %}
-        <ul class="donation-list">
+        <div class="donation-history">
             {% for donation in donations %}
-                <li>
-                    <strong>Donation Event:</strong> {{ donation.past_event_id }}<br>
-                    <strong>Donation Center:</strong> {{ donation.past_event_id.future_event_id.donation_center }}<br>
-                    <strong>Start Date:</strong> {{ donation.past_event_id.future_event_id.start_date }}<br>
-                    <strong>End Date:</strong> {{ donation.past_event_id.future_event_id.end_date }}<br>
-                </li>
+                <div class="donation-item">
+                    <div class="donation-details">
+                        <h3>Donation Event: {{ donation.past_event_id }}</h3>
+                        <p><strong>Donation Center:</strong> {{ donation.past_event_id.future_event_id.donation_center }}</p>
+                        <p><strong>Date:</strong> {{ donation.past_event_id.future_event_id.start_date|date:"F j, Y" }}</p>
+                        <p><strong>Duration:</strong> {{ donation.past_event_id.future_event_id.start_date|date:"F j, Y" }} - {{ donation.past_event_id.future_event_id.end_date|date:"F j, Y" }}</p>
+                    </div>
+                </div>
             {% endfor %}
-        </ul>
+        </div>
     {% else %}
         <p class="no-donations">No donation history available.</p>
     {% endif %}

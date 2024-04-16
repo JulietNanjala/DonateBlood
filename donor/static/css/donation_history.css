@@ -1,5 +1,3 @@
-/* donation_history.css */
-
 .container {
     max-width: 800px;
     margin: 0 auto;
@@ -13,17 +11,31 @@ h2 {
     text-align: center;
 }
 
-.donation-list {
-    list-style-type: none;
-    padding: 0;
+.donation-history {
+    display: grid;
+    grid-gap: 20px;
 }
 
 .donation-item {
-    background-color: #fff;
+    background-color: #f9f9f9;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    margin-bottom: 20px;
+}
+
+.donation-details {
+    margin-bottom: 10px;
+}
+
+.donation-details h3 {
+    font-size: 24px;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+.donation-details p {
+    margin-bottom: 5px;
+    font-size: 16px;
 }
 
 .no-donations {
