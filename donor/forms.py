@@ -1,5 +1,6 @@
 from django import forms
-from .models import PotentialDonor, BloodGroup,DonateBlood
+from .models import PotentialDonor, BloodGroup,DonateBlood,FutureEvent
+from django.utils import timezone
 
 class RegisterForm(forms.ModelForm):
     confirm_password = forms.CharField(
@@ -74,6 +75,13 @@ class PasswordResetForm(forms.Form):
         return email
 
 class BloodDonationForm(forms.ModelForm):
+    future_event_id = forms.ModelChoiceField(
+        queryset=FutureEvent.objects.select_related('donation_center').filter(application_deadline__gt=timezone.now()),
+        required=True,
+        label='Select a Future Event',
+        widget=forms.Select(attrs={'class': 'form-control'}),
+    )
+
     class Meta:
         model = DonateBlood
-        fields = ['future_event_id', 'potential_donor_id', 'ticket_number']
+        fields = ['future_event_id']

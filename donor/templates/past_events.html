@@ -9,8 +9,9 @@
             {% for event in past_events %}
                 <li class="event-card">
                     <div class="event-details">
-                        <h3>{{ event }}</h3>
-                        <!-- You can add more details here if needed -->
+                        <h3>{{ event.future_event_id.event_id.event_description }}</h3>
+                        <p><strong>Donation Center:</strong> {{ event.future_event_id.donation_center.donation_center_name }}</p>
+                        <p><strong>End Date:</strong> {{ event.future_event_id.end_date }}</p>
                     </div>
                 </li>
             {% endfor %}

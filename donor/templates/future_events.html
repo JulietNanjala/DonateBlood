@@ -11,8 +11,8 @@
             {% for event in future_events %}
                 <li class="event-card">
                     <div class="event-details">
-                        <h3>{{ event.event_id.name }}</h3>
-                        <p><strong>Donation Center:</strong> {{ event.donation_center.name }}</p>
+                        <h3>{{ event.event_id.event_description }}</h3>
+                        <p><strong>Donation Center:</strong> {{ event.donation_center.donation_center_name }}</p>
                         <p><strong>Application Deadline:</strong> {{ event.application_deadline }}</p>
                         <p><strong>Start Date:</strong> {{ event.start_date }}</p>
                         <p><strong>End Date:</strong> {{ event.end_date }}</p>

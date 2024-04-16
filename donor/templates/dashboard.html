@@ -1,37 +1,51 @@
 {% extends 'base_dashboard.html' %}
-
 {% load static %}
 
 {% block content %}
     <!-- Sidebar Section -->
     <aside class="sidebar">
         <div class="logo">
-            <img src="{% static 'img/blood-drop.jpeg' %}" alt="Blood Drop">
+            <img src="{% static 'img\blood donor.png' %}" alt="Logo">
         </div>
         <nav class="navigation" role="navigation" aria-label="Main Navigation">
-            <a href="{% url 'book_ticket' %}" class="nav-item">Donate Blood</a>
-            <a href="{% url 'future_events' %}" class="nav-item">Future Events</a>
-            <a href="{% url 'past_events' %}" class="nav-item">Past Events</a>
-            <a href="{% url 'donation_history' %}" class="nav-item">Donation History</a>
-            <a href="{% url 'logout' %}" class="nav-item">Logout</a>
+            <a href="{% url 'future_events' %}" class="nav-item">
+                <span class="nav-icon">&#x1F4C5;</span>
+                Future Events
+            </a>
+            <a href="{% url 'past_events' %}" class="nav-item">
+                <span class="nav-icon">&#x1F4C4;</span>
+                Past Events
+            </a>
+            <a href="{% url 'donation_history' %}" class="nav-item">
+                <span class="nav-icon">&#x1F489;</span>
+                Donation History
+            </a>
+            <a href="#" class="nav-item" id="logout_confirm">
+                <span class="nav-icon">&#x1F6AA;</span>
+                Logout
+            </a>
         </nav>
-    </aside>
+    </aside>    
 
     <!-- Main Content Section -->
     <main class="main-content">
         <!-- Home Section -->
         <section id="home" class="hero">
             <div class="hero-content">
-                <h1 class="tagline">Welcome to EDonor</h1>
-                <p>Donate blood and save lives!</p>
+                <h1>Welcome to EDonor</h1>
+                <p>Be a hero, save a life. Your blood donation can make a big difference!</p>
+                <a href="{% url 'book_ticket' %}" class="btn-primary">Donate Now</a>
             </div>
         </section>
     </main>
-
-    <!-- Footer Section -->
-    <footer class="footer">
-        <div class="footer-copyright">
-            &copy; 2024 EDonor. All Rights Reserved.
-        </div>
-    </footer>
+<script>
+    //user to confirm before logging out
+    document.getElementById('logout_confirm').addEventListener('click',function(event){
+        event.preventDefault();
+        var confirmation=confirm('Are you sure you want to logout?');
+        if(confirmation){
+            window.location.href="{% url 'login' %}";
+        }
+    });
+</script>
 {% endblock %}

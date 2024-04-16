@@ -26,32 +26,76 @@ body {
     padding-top: 20px;
 }
 
-/* Logo Styles */
-.logo img {
+.sidebar .logo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sidebar .logo img {
     max-width: 100%;
     height: auto;
+}
+
+.sidebar h2 {
+    color: #0073ff;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+/* Navigation Item Styles */
+.nav-item {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-item:hover {
+    background-color: #f0f0f0;
+}
+
+.nav-icon {
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 250px; /* Set the width of the sidebar */
+    height: 100%; /* Occupy full height */
+    position: fixed; /* Fix the sidebar position */
+    top: 0; /* Place it at the top */
+    left: 0; /* Place it on the left */
+    background-color: #ffffff;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding-top: 20px;
+}
+
+.sidebar .logo {
+    text-align: center;
     margin-bottom: 20px;
+}
+
+.sidebar .logo img {
+    max-width: 100%;
+    height: auto;
+}
+
+.sidebar h2 {
+    color: #0073ff;
+    text-align: center;
+    padding-bottom: 20px;
 }
 
 /* Navigation Styles */
 .navigation {
     display: flex;
     flex-direction: column; /* Stack navigation items vertically */
-    gap: 20px; /* Add space between items */
+    gap: 10px; /* Add space between items */
     padding-left: 20px; /* Add left padding */
-}
-
-/* Navigation Item Styles */
-.nav-item {
-    text-decoration: none;
-    color:black;
-    font-weight: bold;
-    font-size: 18px;
-    transition: color 0.3s ease;
-}
-
-.nav-item:hover {
-    color: #EF3B2D;
 }
 
 /* Main Content Section Styles */
@@ -68,14 +112,46 @@ body {
     justify-content: center;
     height: 400px;
     text-align: center;
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)) no-repeat center center/cover;
-    color: #ffffff;
+    background: linear-gradient(rgba(247, 241, 241, 0.5), rgba(246, 242, 242, 0.5)) no-repeat center center/cover;
+    color: #333;
 }
 
-/* Footer Section Styles */
-.footer {
-    background-color: red;
-    color: #fff;
-    text-align: center;
-    padding: 30px 0;
+.hero h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #EF3B2D;
+}
+
+.hero p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.btn-primary {
+    background-color: #0073ff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Mobile-Friendly Adjustments */
+@media only screen and (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        box-shadow: none;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
 }

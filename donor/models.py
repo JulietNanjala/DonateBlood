@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.core.exceptions import ValidationError
 from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth.models import User
 
 class County(models.Model):
     county_id = models.AutoField(primary_key=True)
@@ -116,7 +117,7 @@ class FutureEvent(models.Model):
 class DonateBlood(models.Model):
     donate_blood_id = models.AutoField(primary_key=True)
     future_event_id = models.ForeignKey(FutureEvent, on_delete=models.CASCADE)
-    potential_donor_id = models.ForeignKey(PotentialDonor, on_delete=models.CASCADE)
+    email_address = models.EmailField(max_length=200, unique=True, help_text="Enter a valid email address",default=None)
     ticket_number=models.CharField(max_length=255,unique=True,help_text=" Enter Valid Ticket Number")
 
     def __str__(self):
@@ -130,13 +131,13 @@ class PastEvent(models.Model):
         return str(self.future_event_id)
     
     def clean(self):
-        if self.future_event_id.start_date >= timezone.now():
-            raise ValidationError("The start date of the corresponding FutureEvent must be in the past.")
+        if self.future_event_id.end_date >= timezone.now():
+            raise ValidationError("The end date of the corresponding FutureEvent must be in the past.")
     
 class DonationHistory(models.Model):
     donation_history_id = models.AutoField(primary_key=True)
     past_event_id = models.ForeignKey(PastEvent, on_delete=models.CASCADE)
-    potential_donor_id=models.ForeignKey(PotentialDonor,on_delete=models.CASCADE)
-    
+    email_address = models.EmailField(max_length=200, unique=True, help_text="Enter a valid email address",default=None)
+
     def __str__(self):
-        return self.past_event_id
+        return f"{self.email_address}"

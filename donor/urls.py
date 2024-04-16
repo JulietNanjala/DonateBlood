@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import LoginView, DashboardView, RegisterView, PasswordResetView
-from .views import book_ticket,future_events,past_events,donation_history,logout_view
+from .views import LoginView, DashboardView, RegisterView, PasswordResetView,RegisterSuccessPageView
+from .views import book_ticket,future_events,past_events,donation_history,logout_view,booking_success
 
 urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
@@ -11,5 +11,7 @@ urlpatterns = [
     path('logout/', logout_view, name='logout'),
     path('future-events/', future_events, name='future_events'),
     path('past-events/', past_events, name='past_events'),
+    path('success/',booking_success,name='booking_success'),
     path('donation-history/', donation_history, name='donation_history'),
+    path('register/success/', RegisterSuccessPageView.as_view(), name='register_success'),
 ]

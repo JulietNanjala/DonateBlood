@@ -6,6 +6,8 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.utils import timezone
+import uuid
+from datetime import timedelta
 
 class LoginView(View):
     template_name = 'login.html'
@@ -26,9 +28,10 @@ class LoginView(View):
                 return redirect('dashboard')
             else:
                 # Authentication failed
-                return render(request, self.template_name, {'form': form, 'error': 'Invalid email or password'})
+                form.add_error(None, "Invalid email address or password!")
+                return render(request, self.template_name, {'form': form}, status=400)
         else:
-            return render(request, self.template_name, {'form': form, 'error': 'Invalid email or password'})
+            return render(request, self.template_name, {'form': form}, status=400)
 
 class RegisterView(View):
     template_name = 'signup.html'
@@ -57,10 +60,14 @@ class RegisterView(View):
                 new_account = form.save(commit=False)
                 new_account.set_password(form.cleaned_data['password_hash'])
                 new_account.save()
-                return redirect('login')
+                return redirect('register_success')
         else:
             # If the form is not valid, render the template with the form and errors
             return render(request, self.template_name, {'form': form})
+
+class RegisterSuccessPageView(View):
+    def get(self, request):
+        return render(request, 'register_success.html')
 
 class PasswordResetView(View):
     template_name = 'forgot_password.html'
@@ -97,22 +104,43 @@ def book_ticket(request):
     if request.method == 'POST':
         form = BloodDonationForm(request.POST)
         if form.is_valid():
-            ticket_number = uuid.uuid4().hex[:10].upper()  # Generate ticket number
-            form.instance.ticket_number = ticket_number
-            form.save()
-            
-            # Store the ticket number in the session
-            request.session['ticket_number'] = ticket_number
-            
-            return redirect('booking_success')  # Redirect to booking success page
+            # Retrieve logged-in user's email address from session
+            email_address = request.session.get('email_address')
+
+            if email_address:
+                # Check if the user has booked a ticket in the last 60 days
+                last_donation = DonateBlood.objects.filter(email_address=email_address).order_by('donate_blood_id').first()
+                
+                if last_donation:
+                    # Retrieve the associated future event
+                    last_event = last_donation.future_event_id
+                    # Calculate the difference between the last event and the current date
+                    difference = timezone.now() - last_event.start_date
+                    # Check if the difference is less than 60 days
+                    if difference < timedelta(days=60):
+                        return HttpResponse("You are only allowed to book one ticket every 60 days.")
+
+                ticket_number = uuid.uuid4().hex[:10].upper()  # Generate ticket number
+
+                new_donation = form.save(commit=False)
+                new_donation.email_address = email_address
+                new_donation.ticket_number = ticket_number
+                new_donation.save()
+
+                # Store the ticket number in the session
+                request.session['ticket_number'] = ticket_number
+
+                return redirect('booking_success')  # Redirect to booking success page
+            else:
+                # If user is not logged in, handle accordingly
+                return HttpResponse("Please log in to book a ticket.")
     else:
         form = BloodDonationForm()
     return render(request, 'book_ticket.html', {'form': form})
 
 def booking_success(request):
-    # Retrieve the ticket number from the session (or database, if applicable)
-    ticket_number = request.session.get('ticket_number')
-    return render(request, 'booking_success.html', {'ticket_number': ticket_number})
+    ticket_number=request.session.get('ticket_number')
+    return render(request,'booking_success.html',{'ticket_number':ticket_number})
 
 def logout_view(request):
     # Log out the user
@@ -132,5 +160,16 @@ def past_events(request):
     return render(request, 'past_events.html', {'past_events': past_events})
 
 def donation_history(request):
-    donation_history = DonationHistory.objects.all()
-    return render(request, 'donation_history.html', {'donation_history': donation_history})
+    # Retrieve logged-in user's email address from session
+    email_address = request.session.get('email_address')
+
+    if email_address:
+        # Query donations made by the user including related DonationCenter information
+        potential_donor_donations = DonationHistory.objects.select_related('past_event_id').filter(email_address=email_address)
+
+        # Render template with donation history data
+        return render(request, 'donation_history.html', {'donations': potential_donor_donations})
+    else:
+        # If user is not logged in, handle accordingly
+        return HttpResponse("Please log in to view donation history.")
+

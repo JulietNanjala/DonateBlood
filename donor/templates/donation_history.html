@@ -4,12 +4,14 @@
 <link rel="stylesheet" href="{% static 'css/donation_history.css' %}">
 <div class="container">
     <h2>Donation History</h2>
-    {% if donation_history %}
+    {% if donations %}
         <ul class="donation-list">
-            {% for donation in donation_history %}
-                <li class="donation-item">
-                    <h3>{{ donation.past_event_id }}</h3>
-                    <!-- Add more details as needed -->
+            {% for donation in donations %}
+                <li>
+                    <strong>Donation Event:</strong> {{ donation.past_event_id }}<br>
+                    <strong>Donation Center:</strong> {{ donation.past_event_id.future_event_id.donation_center }}<br>
+                    <strong>Start Date:</strong> {{ donation.past_event_id.future_event_id.start_date }}<br>
+                    <strong>End Date:</strong> {{ donation.past_event_id.future_event_id.end_date }}<br>
                 </li>
             {% endfor %}
         </ul>
